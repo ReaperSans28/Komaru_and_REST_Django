@@ -42,7 +42,6 @@ class Lesson(models.Model):
         verbose_name="Изображение",
         blank=True,
         null=True,
-        help_text="Загрузите изображение товара",
     )
     course = models.ForeignKey(
         Course,
@@ -50,6 +49,7 @@ class Lesson(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
+        related_name="lessons",
     )
 
     class Meta:
