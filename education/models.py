@@ -74,3 +74,31 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        "users.User",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+    course = models.ForeignKey(
+        Course,
+        verbose_name="Курс",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+    is_signed = models.BooleanField(
+        verbose_name='Подписан ли',
+        default=False,
+        null=False,
+    )
+
+    def __str__(self):
+        return f'{self.user} {self.course}'
+
+    class Meta:
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
