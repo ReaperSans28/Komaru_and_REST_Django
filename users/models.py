@@ -95,3 +95,38 @@ class Payments(models.Model):
     class Meta:
         verbose_name = 'Платеж'
         verbose_name_plural = 'Платежи'
+
+
+class Payment(models.Model):
+    amount = models.PositiveIntegerField(
+        verbose_name="Сумма оплаты",
+        null=True,
+        blank=True,
+    )
+    session_id = models.CharField(
+        max_length=100,
+        verbose_name="ID сессии",
+        null=True,
+        blank=True,
+    )
+    link = models.URLField(
+        verbose_name="Ссылка на оплату",
+        null=True,
+        blank=True,
+        max_length=400,
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name='payment_user',
+        verbose_name="Пользователь"
+    )
+
+    class Meta:
+        verbose_name = "Пожертвование"
+        verbose_name_plural = "Пожертвования"
+
+    def __str__(self):
+        return self.amount
