@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
+from education.tasks import update_course
 from education.models import Lesson, Course, Subscription
 from education.paginators import CustomPagination
 from education.serializer import LessonSerializer, LessonDetailSerializer, CourseSerializer, SubscriptionSerializer
@@ -26,6 +27,11 @@ class CourseViewSet(ModelViewSet):
         elif self.action == 'destroy':
             self.permission_classes = (IsModer | IsOwner,)
         return super().get_permissions()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        update_course.delay(instance.pk)
+        return instance
 
 
 class LessonCreateApiView(CreateAPIView):
