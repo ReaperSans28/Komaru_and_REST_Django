@@ -17,23 +17,16 @@ class Command(BaseCommand):
             return
 
         self.stdout.write(
-            self.style.SUCCESS(
-                f"Создаю суперпользователя с email {email}."
-            )
+            self.style.SUCCESS(f"Создаю суперпользователя с email {email}.")
         )
 
         user = User.objects.create(
-            email=email,
-            is_staff=True,
-            is_superuser=True,
-            is_active=True
+            email=email, is_staff=True, is_superuser=True, is_active=True
         )
 
         user.set_password(password)
         user.save()
 
         self.stdout.write(
-            self.style.SUCCESS(
-                f"Суперпользователь с email {email} успешно создан."
-            )
+            self.style.SUCCESS(f"Суперпользователь с email {email} успешно создан.")
         )

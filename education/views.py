@@ -1,5 +1,11 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.generics import (
+    CreateAPIView,
+    ListAPIView,
+    RetrieveAPIView,
+    UpdateAPIView,
+    DestroyAPIView,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
@@ -7,7 +13,12 @@ from django.shortcuts import get_object_or_404
 from education.tasks import update_course
 from education.models import Lesson, Course, Subscription
 from education.paginators import CustomPagination
-from education.serializer import LessonSerializer, LessonDetailSerializer, CourseSerializer, SubscriptionSerializer
+from education.serializer import (
+    LessonSerializer,
+    LessonDetailSerializer,
+    CourseSerializer,
+    SubscriptionSerializer,
+)
 from users.permissions import IsModer, IsOwner
 
 
@@ -20,11 +31,11 @@ class CourseViewSet(ModelViewSet):
         return super().partial_update(request, *args, **kwargs)
 
     def get_permissions(self):
-        if self.action == 'create':
+        if self.action == "create":
             self.permission_classes = (~IsModer,)
-        elif self.action in ['update', 'retrieve']:
+        elif self.action in ["update", "retrieve"]:
             self.permission_classes = (IsModer | IsOwner,)
-        elif self.action == 'destroy':
+        elif self.action == "destroy":
             self.permission_classes = (IsModer | IsOwner,)
         return super().get_permissions()
 
@@ -71,13 +82,13 @@ class SubscriptionCreateApiView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         user = self.request.user
-        course = get_object_or_404(Course, pk=self.request.data.get('course_id'))
+        course = get_object_or_404(Course, pk=self.request.data.get("course_id"))
         subs_item = Subscription.objects.filter(user=user, course=course)
 
         if subs_item:
             subs_item.delete()
-            message = 'Подписка на урок/курс удалена'
+            message = "Подписка на урок/курс удалена"
         else:
             Subscription.objects.create(user=user, course=course, is_signed=True)
-            message = 'Подписка на урок/курс добавлена'
+            message = "Подписка на урок/курс добавлена"
         return Response({"message": message})

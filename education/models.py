@@ -91,13 +91,13 @@ class Subscription(models.Model):
         on_delete=models.SET_NULL,
     )
     is_signed = models.BooleanField(
-        verbose_name='Подписан ли',
+        verbose_name="Подписан ли",
         default=False,
         null=False,
     )
 
     def __str__(self):
-        return f'{self.user} {self.course}'
+        return f"{self.user} {self.course}"
 
     class Meta:
         verbose_name = "Подписка"

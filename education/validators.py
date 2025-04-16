@@ -9,5 +9,7 @@ class YouTubeValidator:
         url = "http://www.youtube.com"
         if value.get("video_url"):
             if url not in value.get("video_url"):
-                raise ValidationError("Ссылки кроме 'http://www.youtube.com' не поддерживаются.")
+                raise ValidationError(
+                    "Ссылки кроме 'http://www.youtube.com' не поддерживаются."
+                )
         return None

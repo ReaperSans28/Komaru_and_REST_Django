@@ -4,10 +4,7 @@ from education.models import Course, Lesson
 
 
 class User(AbstractUser):
-    username = models.CharField(
-        max_length=30,
-        verbose_name='Имя'
-    )
+    username = models.CharField(max_length=30, verbose_name="Имя")
     email = models.EmailField(
         unique=True,
         verbose_name="Почта пользователя",
@@ -49,36 +46,27 @@ class Payments(models.Model):
     ]
 
     user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='user',
-        verbose_name="Пользователь"
+        User, on_delete=models.CASCADE, related_name="user", verbose_name="Пользователь"
     )
-    payment_date = models.DateField(
-        null=True,
-        blank=True,
-        verbose_name="Дата оплаты"
-    )
+    payment_date = models.DateField(null=True, blank=True, verbose_name="Дата оплаты")
     paid_course = models.ForeignKey(
         Course,
         on_delete=models.CASCADE,
-        related_name='course',
+        related_name="course",
         verbose_name="Оплаченный курс",
-        null=True, blank=True
+        null=True,
+        blank=True,
     )
     separately_paid_lesson = models.ForeignKey(
         Lesson,
         on_delete=models.CASCADE,
-        related_name='lesson',
+        related_name="lesson",
         verbose_name="Оплаченный урок",
         null=True,
-        blank=True
+        blank=True,
     )
     payment_amount = models.IntegerField(
-        default=0,
-        verbose_name="Сумма оплаты",
-        null=True,
-        blank=True
+        default=0, verbose_name="Сумма оплаты", null=True, blank=True
     )
     payment_method = models.CharField(
         max_length=10,
@@ -86,15 +74,15 @@ class Payments(models.Model):
         default="cash",
         verbose_name="Способ оплаты",
         null=True,
-        blank=True
+        blank=True,
     )
 
     def __str__(self):
-        return f'{self.user} {self.paid_course}'
+        return f"{self.user} {self.paid_course}"
 
     class Meta:
-        verbose_name = 'Платеж'
-        verbose_name_plural = 'Платежи'
+        verbose_name = "Платеж"
+        verbose_name_plural = "Платежи"
 
 
 class Payment(models.Model):
@@ -120,8 +108,8 @@ class Payment(models.Model):
         on_delete=models.CASCADE,
         blank=True,
         null=True,
-        related_name='payment_user',
-        verbose_name="Пользователь"
+        related_name="payment_user",
+        verbose_name="Пользователь",
     )
 
     class Meta:

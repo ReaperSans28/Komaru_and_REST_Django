@@ -3,15 +3,19 @@ from rest_framework.permissions import AllowAny
 
 from users.models import Payments, User, Payment
 from users.serializer import PaymentsSerializers, UserSerializer, PaymentSerializer
-from users.services import convert_rub_to_dollar, create_stripe_price, create_stripe_session
+from users.services import (
+    convert_rub_to_dollar,
+    create_stripe_price,
+    create_stripe_session,
+)
 
 
 class PaymentsViewSet(viewsets.ModelViewSet):
     serializer_class = PaymentsSerializers
     queryset = Payments.objects.all()
     filter_backends = [filters.OrderingFilter]
-    filterset_fields = ['paid_course', 'separately_paid_lesson', 'payment_method']
-    ordering_fields = ['payment_date']
+    filterset_fields = ["paid_course", "separately_paid_lesson", "payment_method"]
+    ordering_fields = ["payment_date"]
 
 
 class UserCreateAPIView(generics.CreateAPIView):

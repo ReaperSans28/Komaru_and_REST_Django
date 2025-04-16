@@ -6,12 +6,13 @@ from education.models import Course, Subscription
 from users.models import User
 from django.conf import settings
 
+
 @shared_task
 def update_course(course_pk):
     course = Course.objects.filter(pk=course_pk).first()
     if not course:
-        print(f'Курс с ID {course_pk} не найден.')
-    subscriptions = Subscription.objects.filter(course=course_pk).select_related('user')
+        print(f"Курс с ID {course_pk} не найден.")
+    subscriptions = Subscription.objects.filter(course=course_pk).select_related("user")
     for subscription in subscriptions:
         user = subscription.user
         send_mail(
@@ -20,7 +21,8 @@ def update_course(course_pk):
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[user.email],
         )
-        print(f'Уведомление отправлено на почту: {user.email}')
+        print(f"Уведомление отправлено на почту: {user.email}")
+
 
 @shared_task
 def check_last_login():
@@ -29,6 +31,6 @@ def check_last_login():
         if timezone.now() - user.last_login > timedelta(days=30):
             user.is_active = False
             user.save()
-            print(f'{user.email} - забанен.')
+            print(f"{user.email} - забанен.")
         else:
-            print(f'{user.email} - доступен.')
+            print(f"{user.email} - доступен.")

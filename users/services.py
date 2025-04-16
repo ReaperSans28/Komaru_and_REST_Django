@@ -14,8 +14,6 @@ def convert_rub_to_dollar(price: int) -> int:
     Выдает актуальный курс рубля по отношению к доллару.
     Принимает значение price в долларах и возвращает эквивалент в рублях.
     """
-    global api_key1
-
     url = "https://open.er-api.com/v6/latest/USD"
     headers = {"apikey": api_key1}
 

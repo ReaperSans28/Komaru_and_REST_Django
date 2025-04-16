@@ -8,22 +8,58 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0002_alter_user_email_alter_user_phone_payments'),
+        ("users", "0002_alter_user_email_alter_user_phone_payments"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Payment',
+            name="Payment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.PositiveIntegerField(blank=True, null=True, verbose_name='Сумма оплаты')),
-                ('session_id', models.CharField(blank=True, max_length=50, null=True, verbose_name='ID сессии')),
-                ('link', models.URLField(blank=True, max_length=400, null=True, verbose_name='Ссылка на оплату')),
-                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='payment_user', to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "amount",
+                    models.PositiveIntegerField(
+                        blank=True, null=True, verbose_name="Сумма оплаты"
+                    ),
+                ),
+                (
+                    "session_id",
+                    models.CharField(
+                        blank=True, max_length=50, null=True, verbose_name="ID сессии"
+                    ),
+                ),
+                (
+                    "link",
+                    models.URLField(
+                        blank=True,
+                        max_length=400,
+                        null=True,
+                        verbose_name="Ссылка на оплату",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="payment_user",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Пользователь",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Пожертвование',
-                'verbose_name_plural': 'Пожертвования',
+                "verbose_name": "Пожертвование",
+                "verbose_name_plural": "Пожертвования",
             },
         ),
     ]

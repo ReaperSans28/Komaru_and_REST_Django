@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('education', '0005_subscription'),
+        ("education", "0005_subscription"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='subscription',
-            name='is_signed',
-            field=models.BooleanField(default=False, verbose_name='Подписан ли'),
+            model_name="subscription",
+            name="is_signed",
+            field=models.BooleanField(default=False, verbose_name="Подписан ли"),
         ),
     ]
