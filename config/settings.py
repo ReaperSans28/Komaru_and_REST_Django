@@ -3,7 +3,8 @@ from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv(override=True)
+env_path = Path(__file__).resolve().parent / '.env'
+load_dotenv(env_path, override=True)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
