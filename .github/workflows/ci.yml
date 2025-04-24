@@ -47,12 +47,30 @@ jobs:
         echo "SECRET_KEY=${{ secrets.SECRET_KEY }}"
 
     - name: Run migrations
-#      env:
-#        DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
-      run: python manage.py migrate
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DEBUG: ${{ secrets.DEBUG }}
+        TIME_ZONE: ${{ secrets.TIME_ZONE }}
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+        POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+        STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+        API_KEY: ${{ secrets.API_KEY }}
+        CELERY_BROKER_URL: ${{ secrets.CELERY_BROKER_URL }}
+        CELERY_RESULT_BACKEND: ${{ secrets.CELERY_RESULT_BACKEND }}
+        EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+        EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+        EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+      run: |
+        python manage.py migrate
 
     - name: Run tests
-      run: python manage.py test
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      run: |
+        python manage.py test
 
   deploy:
     runs-on: ubuntu-latest
@@ -86,8 +104,12 @@ jobs:
 
     - name: Apply migrations on server
       run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          cd ${{ secrets.DEPLOY_DIR }}
           source venv/bin/activate
+          export SECRET_KEY=${{ secrets.SECRET_KEY }}
+          export DEBUG=${{ secrets.DEBUG }}
           python manage.py migrate
         EOF
 
