@@ -6,8 +6,6 @@ from dotenv import load_dotenv
 project_root = Path(__file__).resolve().parents[1]
 env_path = project_root / '.env'
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project_name.settings.local")
-
 if env_path.exists():
     load_dotenv(env_path, override=True)
 else:
@@ -15,7 +13,7 @@ else:
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = "django-insecure-)!5-nh1f4dowac0@da9&^(da*db1d=0go5esz=2$s9olt+sp*b"
 
 DEBUG = os.getenv("DEBUG") == "True"
 
