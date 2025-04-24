@@ -37,10 +37,6 @@ jobs:
       run: |
         pip install -r requirements.txt
 
-    - name: Проверка SECRET_KEY
-      run: |
-        echo "SECRET_KEY=${{ secrets.SECRET_KEY }}"
-
     - name: Run migrations
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -64,6 +60,20 @@ jobs:
     - name: Run tests
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DEBUG: ${{ secrets.DEBUG }}
+        TIME_ZONE: ${{ secrets.TIME_ZONE }}
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+        POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+        STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+        API_KEY: ${{ secrets.API_KEY }}
+        CELERY_BROKER_URL: ${{ secrets.CELERY_BROKER_URL }}
+        CELERY_RESULT_BACKEND: ${{ secrets.CELERY_RESULT_BACKEND }}
+        EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+        EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+        EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
       run: |
         python manage.py test
 
