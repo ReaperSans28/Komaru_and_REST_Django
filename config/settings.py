@@ -13,7 +13,7 @@ else:
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-)!5-nh1f4dowac0@da9&^(da*db1d=0go5esz=2$s9olt+sp*b"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = os.getenv("DEBUG") == "True"
 
