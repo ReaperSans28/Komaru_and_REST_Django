@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 project_root = Path(__file__).resolve().parents[1]
 env_path = project_root / '.env'
 
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project_name.settings.local")
+
 if env_path.exists():
     load_dotenv(env_path, override=True)
 else:
