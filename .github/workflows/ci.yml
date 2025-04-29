@@ -93,6 +93,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
+
       - name: Add known hosts
         run: |
           mkdir -p ~/.ssh
@@ -102,7 +103,12 @@ jobs:
 
       - name: Copy project files to server
         run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+            mkdir -p "$DEPLOY_DIR"
+          EOF
           rsync -avz --exclude '__pycache__' . ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_DIR }}
+        env:
+          DEPLOY_DIR: "/home/bogda/Komaru_and_REST_Django"
 
       - name: DEPLOY_DIR exists
         run: |
@@ -116,13 +122,19 @@ jobs:
       - name: Install dependencies on server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            cd ${{ secrets.DEPLOY_DIR }}
+            echo "Current directory:"
+            pwd
+            echo "Deploy directory:"
+            echo "$DEPLOY_DIR"
+            cd "$DEPLOY_DIR"
             sudo apt-get update
             sudo apt-get install -y python3-venv
             python3 -m venv venv
             source venv/bin/activate
             pip install -r requirements.txt
           EOF
+        env:
+          DEPLOY_DIR: "/home/bogda/Komaru_and_REST_Django"
 
       - name: Apply migrations on server
         run: |
