@@ -106,7 +106,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             mkdir -p "$DEPLOY_DIR"
           EOF
-          rsync -avz --exclude '__pycache__' . ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_DIR }}
         env:
           DEPLOY_DIR: "/home/bogda/Komaru_and_REST_Django"
 
