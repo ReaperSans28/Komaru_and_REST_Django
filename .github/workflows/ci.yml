@@ -104,6 +104,15 @@ jobs:
         run: |
           rsync -avz --exclude '__pycache__' . ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:${{ secrets.DEPLOY_DIR }}
 
+      - name: DEPLOY_DIR exists
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+            echo "Current directory:"
+            pwd
+            echo "DEPLOY_DIR:"
+            echo "${{ secrets.DEPLOY_DIR }}"
+          EOF
+
       - name: Install dependencies on server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
