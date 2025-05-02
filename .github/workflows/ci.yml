@@ -107,7 +107,7 @@ jobs:
             mkdir -p "$DEPLOY_DIR" || true
           EOF
         env:
-          DEPLOY_DIR: "/home/bogda/Komaru_and_REST_Django"
+          DEPLOY_DIR: "/home/bogda/"
 
       - name: Install dependencies on server
         run: |
@@ -124,7 +124,7 @@ jobs:
             pip install -r requirements.txt
           EOF
         env:
-          DEPLOY_DIR: "/home/bogda/Komaru_and_REST_Django"
+          DEPLOY_DIR: "/home/bogda/"
 
       - name: Apply migrations on server
         run: |
