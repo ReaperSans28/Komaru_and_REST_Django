@@ -106,19 +106,12 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
             mkdir -p "$DEPLOY_DIR" || true
           EOF
-
-      - name: DEPLOY_DIR exists
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            echo "Current directory:"
-            pwd
-            echo "DEPLOY_DIR:"
-            echo "${{ secrets.DEPLOY_DIR }}"
-          EOF
+        env:
+          DEPLOY_DIR: "/home/bogda/Komaru_and_REST_Django"
 
       - name: Install dependencies on server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
             echo "Current directory:"
             pwd
             echo "Deploy directory:"
