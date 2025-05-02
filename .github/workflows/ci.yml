@@ -104,10 +104,8 @@ jobs:
       - name: Copy project files to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
-            mkdir -p "$DEPLOY_DIR"
+            mkdir -p "$DEPLOY_DIR" || true
           EOF
-        env:
-          DEPLOY_DIR: "/home/bogda/Komaru_and_REST_Django"
 
       - name: DEPLOY_DIR exists
         run: |
