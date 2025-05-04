@@ -87,11 +87,11 @@ jobs:
       - name: Log in Docker hub
         run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
 
-      - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/Komaru_and_REST_Django:${{ github.sha }} .
+      - name: Set Docker image name
+        run: echo "IMAGE_NAME=${{ secrets.DOCKER_HUB_USERNAME }}/komaru_and_rest_django:${{ github.sha }}" >> $GITHUB_ENV
 
       - name: Push Docker image in Docker hub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/Komaru_and_REST_Django:${{ github.sha }}
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/komaru_and_rest_django:${{ github.sha }}
 
   deploy:
     name: Deploy to server
@@ -114,8 +114,8 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF' 
-            sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/Komaru_and_REST_Django:${{ github.sha }} 
-            sudo docker stop Komaru_and_REST_Django || true 
-            sudo docker rm Komaru_and_REST_Django || true 
+            sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/komaru_and_rest_django:${{ github.sha }} 
+            sudo docker stop komaru_and_rest_django || true 
+            sudo docker rm komaru_and_rest_django || true 
             sudo docker run -d --name Komaru_and_REST_Django -e SECRET_KEY="${{ secrets.SECRET_KEY }}" -p 8080:80 ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }}
           EOF
