@@ -120,5 +120,5 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/komaru_and_rest_django:${{ github.sha }} 
             sudo docker stop komaru_and_rest_django || true 
             sudo docker rm komaru_and_rest_django || true 
-            sudo docker run -d --name Komaru_and_REST_Django -e SECRET_KEY="${{ secrets.SECRET_KEY }}" -p 8080:80 ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }}
+            sudo docker run -d --name komaru_and_rest_django -e SECRET_KEY="${{ secrets.SECRET_KEY }}" -p 8080:80 ${{ secrets.DOCKER_HUB_USERNAME }}/komaru_and_rest_django:${{ github.sha }}
           EOF
